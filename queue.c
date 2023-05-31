@@ -45,8 +45,9 @@ int receiveQueue(Queue *q){
 	/* save the first out*/
 	int buffer = readQueue(q);
 	/* free memory */
-	free(q->data[(q->sizeQueue)-1]);
-	(q->sizeQueue)--;
+	int last = (q->sizeQueue)-1;
+		q->data = (int*)realloc(q->data, ((q->sizeQueue) - 1)*sizeof(int));
+	q->sizeQueue--;
 	return (buffer);
 }
 
@@ -86,6 +87,11 @@ int main(int argc, char *argv[]){
     int value[10] = {2, 3, 4, 5, 7, 1, 0, 6, 9, 8};
     int value2[5] = {2, 3, 4, 5, 7};
     for(x = 0; x < 5; x++){
+    	printf("%d %d ", x, value2[x]);
+    	printf("\n");
+	}
+
+	for(x = 0; x < 5; x++){
     	printf("%d %d ", x, value2[x]);
     	printf("\n");
 	}

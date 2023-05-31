@@ -7,11 +7,11 @@ typedef struct Queue{
     int *data;          /* array of element only one type of data */
 }Queue;
 
+/* create a queue to share date */
 Queue createQueue(Queue *q, int sizeQueue, int sizeElements){
 	void *data;
 	q->sizeQueue = sizeQueue;
-	q->syzeElements = sizeElements;
-	
+	q->syzeElements = sizeElements;	
 	/* alloc memory space and set values 0*/
 	data = (int*)calloc(sizeQueue, sizeof(int)); 
 	q->data = data;
@@ -28,15 +28,32 @@ void writeQueue(Queue *q, void *value){
 	q->data[0] = *(int*)value; 
 }
 
+/* Add elements to the begin of the queue and increase the queue*/
 void sendQueue(Queue *q, void *value){
 	q->data = (int*)realloc(q->data, ((q->sizeQueue) + 1)*sizeof(int));
 	q->sizeQueue++;
 	writeQueue(q, value);	
 }
 
-/*FIFO first in first out return the last element to in*/
+/* FIFO first in first out return the last element to in */
 int readQueue(Queue *q){
 	return q->data[q->sizeQueue-1];	
+}
+
+/* receive a element of queue and remove the element */
+int receiveQueue(Queue *q){
+	/* save the first out*/
+	int buffer = readQueue(q);
+	/* free memory */
+	free(q->data[(q->sizeQueue)-1]);
+	(q->sizeQueue)--;
+	return (buffer);
+}
+
+void printfQueue(Queue *q){
+	for(int i = 0; i < (q->sizeQueue); i++){
+    	printf("%d \n", q->data[i]);
+	}
 }
 
 void task1(void *p){
@@ -65,30 +82,45 @@ void* taskVoidVoid(void *p){
 
 int main(int argc, char *argv[]){
     Queue q;
-    int value[5] = {2, 3, 4, 5, 7};
+    int x;
+    int value[10] = {2, 3, 4, 5, 7, 1, 0, 6, 9, 8};
+    int value2[5] = {2, 3, 4, 5, 7};
+    for(x = 0; x < 5; x++){
+    	printf("%d %d ", x, value2[x]);
+    	printf("\n");
+	}
 
+	printf("Queue Created!\n");
     q = createQueue(&q , 5, sizeof(int));
+    
+    printf("writing 5 elements\n");
     writeQueue(&q, &value[0]);
     writeQueue(&q, &value[1]);
     writeQueue(&q, &value[2]);
     writeQueue(&q, &value[3]);
     writeQueue(&q, &value[4]);
-   
-    printf("Queue date\n");  
-    for(int i = 0; i < (q.sizeQueue); i++){
-    	printf("%d \n", q.data[i]);
-	}
+    printfQueue(&q);
 	
-	sendQueue(&q, &value[0]);
-	sendQueue(&q, &value[1]);
-    sendQueue(&q, &value[2]);
-    sendQueue(&q, &value[3]);
-    sendQueue(&q, &value[4]); 
+	printf("send 5 new elements\n"); 	
+	sendQueue(&q, &value[5]);
+	sendQueue(&q, &value[6]);
+    sendQueue(&q, &value[7]);
+    sendQueue(&q, &value[8]);
+    sendQueue(&q, &value[9]); 
+    printf("Queue date\n");  
+    printfQueue(&q);
+    
+	printf("reading from queue\n");
+	printf("first in first reading: %d\n", readQueue(&q));
+	printf("Queue date\n");  
+    printfQueue(&q);
+      
+    for(x = 0; x < 3; x++){
+    	printf("receive elements from queue(first in first out)\n");
+		printf("element: %d\n", receiveQueue(&q));
+	}
 	
 	printf("Queue date\n");  
-    for(int i = 0; i < (q.sizeQueue); i++){
-    	printf("%d \n", q.data[i]);
-	}
-
+    printfQueue(&q);
     return 0;
 	}

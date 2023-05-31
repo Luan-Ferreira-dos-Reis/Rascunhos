@@ -21,22 +21,23 @@ Queue createQueue(Queue *q, int sizeQueue, int sizeElements){
 
 /* loss the last element of the queue data[sizeQueue-1] and write on the first data[0]. */
 /* Obs: begin of queue [last element of array] or the first in  */
-void overWriteQueue(Queue *q, void *value){
+void writeQueue(Queue *q, void *value){
 	for(int i = q->sizeQueue - 1; i > 0; i--){
 		q->data[i] = q->data[i-1];
 	}
 	q->data[0] = *(int*)value; 
 }
 
+void sendQueue(Queue *q, void *value){
+	q->data = (int*)realloc(q->data, ((q->sizeQueue) + 1)*sizeof(int));
+	q->sizeQueue++;
+	writeQueue(q, value);	
+}
+
 /*FIFO first in first out return the last element to in*/
 int readQueue(Queue *q){
 	return q->data[q->sizeQueue-1];	
 }
-
-
-
-
-
 
 void task1(void *p){
     float r = *(float*)p;
@@ -66,19 +67,23 @@ int main(int argc, char *argv[]){
     Queue q;
     int value[5] = {2, 3, 4, 5, 7};
 
-    q = createQueue(&q , 1, sizeof(int));
-    overWriteQueue(&q, &value[0]);
-    overWriteQueue(&q, &value[1]);
-    overWriteQueue(&q, &value[2]);
-    overWriteQueue(&q, &value[3]);
-    overWriteQueue(&q, &value[4]);
+    q = createQueue(&q , 5, sizeof(int));
+    writeQueue(&q, &value[0]);
+    writeQueue(&q, &value[1]);
+    writeQueue(&q, &value[2]);
+    writeQueue(&q, &value[3]);
+    writeQueue(&q, &value[4]);
    
     printf("Queue date\n");  
     for(int i = 0; i < (q.sizeQueue); i++){
     	printf("%d \n", q.data[i]);
 	}
 	
-	overWriteQueue(&q, &value[0]);
+	sendQueue(&q, &value[0]);
+	sendQueue(&q, &value[1]);
+    sendQueue(&q, &value[2]);
+    sendQueue(&q, &value[3]);
+    sendQueue(&q, &value[4]); 
 	
 	printf("Queue date\n");  
     for(int i = 0; i < (q.sizeQueue); i++){

@@ -85,16 +85,6 @@ int main(int argc, char *argv[]){
     Queue q;
     int x;
     int value[10] = {2, 3, 4, 5, 7, 1, 0, 6, 9, 8};
-    int value2[5] = {2, 3, 4, 5, 7};
-    for(x = 0; x < 5; x++){
-    	printf("%d %d ", x, value2[x]);
-    	printf("\n");
-	}
-
-	for(x = 0; x < 5; x++){
-    	printf("%d %d ", x, value2[x]);
-    	printf("\n");
-	}
 
 	printf("Queue Created!\n");
     q = createQueue(&q , 5, sizeof(int));

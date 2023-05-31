@@ -57,30 +57,6 @@ void printfQueue(Queue *q){
 	}
 }
 
-void task1(void *p){
-    float r = *(float*)p;
-    printf("hello task2\n");
-    printf(" %.4f\n", r);
-}
-
-void task2(void *p){
-    char r = *(char*)p;
-    printf("hello task3\n");
-    printf(" %c\n", r);
-}
-
-void* taskVoidVoid(void *p){
-    int *argumento = (int*)p;
-    int conteudo = *argumento;
-   
-    int retorno = conteudo * 5;
-   
-    int *ptrRetorno= NULL;
-   
-    ptrRetorno = &retorno;
-    return ptrRetorno;
-}
-
 int main(int argc, char *argv[]){
     Queue q;
     int x;

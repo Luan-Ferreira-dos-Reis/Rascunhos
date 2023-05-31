@@ -7,25 +7,29 @@ typedef struct Queue{
     int *data;          /* array of element only one type of data */
 }Queue;
 
-Queue createQueue(Queue *q,int sizeQueue, int sizeElements){
+Queue createQueue(Queue *q, int sizeQueue, int sizeElements){
 	void *data;
 	q->sizeQueue = sizeQueue;
 	q->syzeElements = sizeElements;
 	
-	data = (int*)calloc(sizeQueue, sizeof(int)); //sizeElements
+	/* alloc memory space and set values 0*/
+	data = (int*)calloc(sizeQueue, sizeof(int)); 
 	q->data = data;
-	
+		
 	return *q;
 }
 
-void enQueue(Queue *q, void *value){
+/* loss the last element of the queue data[sizeQueue-1] and write on the first data[0]. */
+/* Obs: begin of queue [last element of array] or the first in  */
+void overWriteQueue(Queue *q, void *value){
 	for(int i = q->sizeQueue - 1; i > 0; i--){
 		q->data[i] = q->data[i-1];
 	}
 	q->data[0] = *(int*)value; 
 }
 
-int deQueue(Queue *q){
+/*FIFO first in first out return the last element to in*/
+int readQueue(Queue *q){
 	return q->data[q->sizeQueue-1];	
 }
 
@@ -61,17 +65,22 @@ void* taskVoidVoid(void *p){
 int main(int argc, char *argv[]){
     Queue q;
     int value[5] = {2, 3, 4, 5, 7};
-    int value0 = 4;
-    q = createQueue(&q , 5, sizeof(int));
-    enQueue(&q, &value[0]);
-    enQueue(&q, &value[1]);
-    enQueue(&q, &value[2]);
-    enQueue(&q, &value[3]);
-    enQueue(&q, &value[4]);
 
-
+    q = createQueue(&q , 1, sizeof(int));
+    overWriteQueue(&q, &value[0]);
+    overWriteQueue(&q, &value[1]);
+    overWriteQueue(&q, &value[2]);
+    overWriteQueue(&q, &value[3]);
+    overWriteQueue(&q, &value[4]);
    
     printf("Queue date\n");  
+    for(int i = 0; i < (q.sizeQueue); i++){
+    	printf("%d \n", q.data[i]);
+	}
+	
+	overWriteQueue(&q, &value[0]);
+	
+	printf("Queue date\n");  
     for(int i = 0; i < (q.sizeQueue); i++){
     	printf("%d \n", q.data[i]);
 	}

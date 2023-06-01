@@ -37,13 +37,19 @@ Queue createQueue(Queue *q, int sizeQueue, int sizeElements){
 void writeQueue(Queue *q, void *value){
 	for(int i = q->sizeQueue - 1; i > 0; i--){
 		q->data[i] = q->data[i-1];
+		q->value[i] = q->value[i-1];
+		q->mensg[i] = q->mensg[i-1];
 	}
 	q->data[0] = *(int*)value; 
+	q->value[0] = *(float*)value;
+	q->mensg[0] = *(char *)value;
 }
 
 /* Add elements to the begin of the queue and increase the queue*/
 void sendQueue(Queue *q, void *value){
 	q->data = (int*)realloc(q->data, ((q->sizeQueue) + 1)*q->sizeElements);
+	q->value = (float*)realloc(q->value, ((q->sizeQueue) + 1)*q->sizeElements);
+	q->mensg = (char*)realloc(q->mensg, ((q->sizeQueue) + 1)*q->sizeElements);
 	q->sizeQueue++;
 	writeQueue(q, value);	
 }
@@ -51,6 +57,12 @@ void sendQueue(Queue *q, void *value){
 /* FIFO first in first out return the last element to in */
 int readQueue(Queue *q){
 	return q->data[q->sizeQueue-1];	
+}
+float readQueueFloat(Queue *q){
+	return q->value[q->sizeQueue-1];	
+}
+char readQueueChar(Queue *q){
+	return q->mensg[q->sizeQueue-1];	
 }
 
 /* receive a element of queue and remove the element */
@@ -63,11 +75,38 @@ int receiveQueue(Queue *q){
 	q->sizeQueue--;
 	return (buffer);
 }
+float receiveQueueFloat(Queue *q){
+	/* save the first out*/
+	float buffer = readQueue(q);
+	/* free memory */
+	int last = (q->sizeQueue)-1;
+		q->value = (float*)realloc(q->value, ((q->sizeQueue) - 1)*q->sizeElements);
+	q->sizeQueue--;
+	return (buffer);
+}
+char receiveQueueChar(Queue *q){
+	/* save the first out*/
+	char buffer = readQueue(q);
+	/* free memory */
+	char last = (q->sizeQueue)-1;
+		q->mensg = (char*)realloc(q->mensg, ((q->sizeQueue) - 1)*q->sizeElements);
+	q->sizeQueue--;
+	return (buffer);
+}
 
 /* auxiliar function to print date of a queue */
 void printfQueue(Queue *q){
+	printf("data\n");
 	for(int i = 0; i < (q->sizeQueue); i++){
     	printf("%d \n", q->data[i]);
+	}
+	printf("value\n");
+	for(int i = 0; i < (q->sizeQueue); i++){
+    	printf("%d \n", q->value[i]);
+	}
+	printf("mensg\n");
+	for(int i = 0; i < (q->sizeQueue); i++){
+    	printf("%d \n", q->mensg[i]);
 	}
 }
 

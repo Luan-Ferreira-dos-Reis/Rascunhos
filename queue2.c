@@ -161,6 +161,5 @@ int main(int argc, char *argv[]){
     printfQueue(&q);
     
     printf("%s\n%s\n%s\n%s\n", typeof(i), typeof(f), typeof(c),typeof(d));
-    free(&q);
     return 0;
 	}

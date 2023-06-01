@@ -154,9 +154,9 @@ int main(int argc, char *argv[]){
       
     for(i = 0; i < 3; i++){
     	printf("receive elements from queue(first in first out)\n");
-    	printf("element: %c\n", receiveQueue(&q));
+//    	printf("element: %c\n", receiveQueue(&q));
 //		printf("element: %c\n", receiveQueuefloat(&q));
-//		printf("element: %c\n", receiveQueueChar(&q));
+		printf("element: %c\n", receiveQueueChar(&q));
 	}
 	
 	printf("Queue date\n");  

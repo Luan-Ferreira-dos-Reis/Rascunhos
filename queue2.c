@@ -13,28 +13,21 @@ default: "Undefined")
 
 typedef struct Queue{
     int sizeQueue;       /* size of queue */
-    char *typeElements;    /* type of elements */
-    void *data;          /* array of element only one type of data */
+    int sizeElements;    /* type of elements */
+    int *data;          /* array of element only one type of data */
 }Queue;
 
 /* create a queue to share date */
-Queue createQueue(Queue *q, int sizeQueue, const char *Elements){
+Queue createQueue(Queue *q, int sizeQueue, int sizeElements){
 	void *data;
 	q->sizeQueue = sizeQueue;
-	q->typeElements = typeElements;	
+	q->sizeElements = sizeElements;	
 	/* alloc memory space and set values 0*/
-	if(strcmp(q->typeElements, "int") )
-		data = (int*)calloc(sizeQueue, sizeof(int));
-	else if(strcmp(q->typeElements, "float") )
-		data = (float*)calloc(sizeQueue, sizeof(float));
-	else if(strcmp(q->typeElements, "double") )
-		data = (double*)calloc(sizeQueue, sizeof(double));
-	else
-		data = (char*)calloc(sizeQueue, sizeof(char));		 
-	q->data = data;
+	(q->data) = (int*)calloc(sizeQueue, sizeElements); 
 		
 	return *q;
 }
+
 
 /* loss the last element of the queue data[sizeQueue-1] and write on the first data[0]. */
 /* Obs: begin of queue [last element of array] or the first in  */
@@ -47,7 +40,7 @@ void writeQueue(Queue *q, void *value){
 
 /* Add elements to the begin of the queue and increase the queue*/
 void sendQueue(Queue *q, void *value){
-	q->data = (int*)realloc(q->data, ((q->sizeQueue) + 1)*sizeof(int));
+	q->data = (int*)realloc(q->data, ((q->sizeQueue) + 1)*q->sizeElements);
 	q->sizeQueue++;
 	writeQueue(q, value);	
 }
@@ -63,7 +56,7 @@ int receiveQueue(Queue *q){
 	int buffer = readQueue(q);
 	/* free memory */
 	int last = (q->sizeQueue)-1;
-		q->data = (int*)realloc(q->data, ((q->sizeQueue) - 1)*sizeof(int));
+		q->data = (int*)realloc(q->data, ((q->sizeQueue) - 1)*q->sizeElements);
 	q->sizeQueue--;
 	return (buffer);
 }

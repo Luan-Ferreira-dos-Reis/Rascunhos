@@ -15,6 +15,8 @@ typedef struct Queue{
     int sizeQueue;       /* size of queue */
     int sizeElements;    /* type of elements */
     int *data;          /* array of element only one type of data */
+    float *value;          /* array of element only one type of data */
+    char *mensg;          /* array of element only one type of data */
 }Queue;
 
 /* create a queue to share date */
@@ -24,7 +26,8 @@ Queue createQueue(Queue *q, int sizeQueue, int sizeElements){
 	q->sizeElements = sizeElements;	
 	/* alloc memory space and set values 0*/
 	(q->data) = (int*)calloc(sizeQueue, sizeElements); 
-		
+	(q->value) = (float*)calloc(sizeQueue, sizeElements);
+	(q->mensg) = (char*)calloc(sizeQueue, sizeElements);		
 	return *q;
 }
 

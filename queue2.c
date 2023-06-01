@@ -13,17 +13,24 @@ default: "Undefined")
 
 typedef struct Queue{
     int sizeQueue;       /* size of queue */
-    int syzeElements;    /* size of each element */
-    int *data;          /* array of element only one type of data */
+    char *typeElements;    /* type of elements */
+    void *data;          /* array of element only one type of data */
 }Queue;
 
 /* create a queue to share date */
-Queue createQueue(Queue *q, int sizeQueue, int sizeElements){
+Queue createQueue(Queue *q, int sizeQueue, const char *Elements){
 	void *data;
 	q->sizeQueue = sizeQueue;
-	q->syzeElements = sizeElements;	
+	q->typeElements = typeElements;	
 	/* alloc memory space and set values 0*/
-	data = (int*)calloc(sizeQueue, sizeof(int)); 
+	if(strcmp(q->typeElements, "int") )
+		data = (int*)calloc(sizeQueue, sizeof(int));
+	else if(strcmp(q->typeElements, "float") )
+		data = (float*)calloc(sizeQueue, sizeof(float));
+	else if(strcmp(q->typeElements, "double") )
+		data = (double*)calloc(sizeQueue, sizeof(double));
+	else
+		data = (char*)calloc(sizeQueue, sizeof(char));		 
 	q->data = data;
 		
 	return *q;

@@ -13,8 +13,7 @@ Queue createQueue(Queue *q, int sizeQueue, int sizeElements){
 	q->sizeQueue = sizeQueue;
 	q->syzeElements = sizeElements;	
 	/* alloc memory space and set values 0*/
-	data = (int*)calloc(sizeQueue, sizeof(int)); 
-	q->data = data;
+	(q->data) = (int*)calloc(sizeQueue, sizeof(int)); 
 		
 	return *q;
 }

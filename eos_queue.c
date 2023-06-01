@@ -12,22 +12,22 @@ void *: "Pointer",\
 default: "Undefined")
 
 typedef struct eos_queue{
-    int sizeQueue;       /* size of queue */
-    int sizeElements;    /* type of elements */
+    int size_queue;       /* size of queue */
+    int size_elements;    /* type of elements */
     int *data;          /* array of element only one type of data */
     float *value;          /* array of element only one type of data */
     char *mensg;          /* array of element only one type of data */
 }eos_queue;
 
 /* create a queue to share date */
-eos_queue eos_create_queue(eos_queue *q, int sizeQueue, int sizeElements){
+eos_queue eos_create_queue(eos_queue *q, int size_queue, int size_elements){
 	void *data;
-	q->sizeQueue = sizeQueue;
-	q->sizeElements = sizeElements;	
+	q->size_queue = size_queue;
+	q->size_elements = size_elements;	
 	/* alloc memory space and set values 0*/
-	(q->data) = (int*)calloc(sizeQueue, sizeof(int)); 
-	(q->value) = (float*)calloc(sizeQueue, sizeof(float));
-	(q->mensg) = (char*)calloc(sizeQueue, sizeof(char));		
+	(q->data) = (int*)calloc(size_queue, sizeof(int)); 
+	(q->value) = (float*)calloc(size_queue, sizeof(float));
+	(q->mensg) = (char*)calloc(size_queue, sizeof(char));		
 	return *q;
 }
 
@@ -35,7 +35,7 @@ eos_queue eos_create_queue(eos_queue *q, int sizeQueue, int sizeElements){
 /* loss the last element of the queue data[sizeQueue-1] and write on the first data[0]. */
 /* Obs: begin of queue [last element of array] or the first in  */
 void eos_queue_write(eos_queue *q, void *value){
-	for(int i = q->sizeQueue - 1; i > 0; i--){
+	for(int i = q->size_queue - 1; i > 0; i--){
 		q->data[i] = q->data[i-1];
 		q->value[i] = q->value[i-1];
 		q->mensg[i] = q->mensg[i-1];
@@ -47,22 +47,22 @@ void eos_queue_write(eos_queue *q, void *value){
 
 /* Add elements to the begin of the queue and increase the queue*/
 void eos_queue_send(eos_queue *q, void *value){
-	q->data = (int*)realloc(q->data, ((q->sizeQueue) + 1)*sizeof(int));
-	q->value = (float*)realloc(q->value, ((q->sizeQueue) + 1)*sizeof(float));
-	q->mensg = (char*)realloc(q->mensg, ((q->sizeQueue) + 1)*sizeof(char));
-	q->sizeQueue++;
+	q->data = (int*)realloc(q->data, ((q->size_queue) + 1)*sizeof(int));
+	q->value = (float*)realloc(q->value, ((q->size_queue) + 1)*sizeof(float));
+	q->mensg = (char*)realloc(q->mensg, ((q->size_queue) + 1)*sizeof(char));
+	q->size_queue++;
 	eos_queue_write(q, value);	
 }
 
 /* FIFO first in first out return the last element to in */
 int eos_queue_read(eos_queue *q){
-	return q->data[q->sizeQueue-1];	
+	return q->data[q->size_queue-1];	
 }
 float eos_queue_read_float(eos_queue *q){
-	return q->value[q->sizeQueue-1];	
+	return q->value[q->size_queue-1];	
 }
 char eos_queue_read_char(eos_queue *q){
-	return q->mensg[q->sizeQueue-1];	
+	return q->mensg[q->size_queue-1];	
 }
 
 /* receive a element of queue and remove the element */
@@ -70,42 +70,42 @@ int eos_queue_receive(eos_queue *q){
 	/* save the first out*/
 	int buffer = eos_queue_read(q);
 	/* free memory */
-	int last = (q->sizeQueue)-1;
-		q->data = (int*)realloc(q->data, ((q->sizeQueue) - 1)*sizeof(int));
-	q->sizeQueue--;
+	int last = (q->size_queue)-1;
+		q->data = (int*)realloc(q->data, ((q->size_queue) - 1)*sizeof(int));
+	q->size_queue--;
 	return (buffer);
 }
 float eos_queue_receive_float(eos_queue *q){
 	/* save the first out*/
 	float buffer = eos_queue_read_float(q);
 	/* free memory */
-	int last = (q->sizeQueue)-1;
-		q->value = (float*)realloc(q->value, ((q->sizeQueue) - 1)*sizeof(float));
-	q->sizeQueue--;
+	int last = (q->size_queue)-1;
+		q->value = (float*)realloc(q->value, ((q->size_queue) - 1)*sizeof(float));
+	q->size_queue--;
 	return (buffer);
 }
 char eos_queue_receive_char(eos_queue *q){
 	/* save the first out*/
 	char buffer = eos_queue_read_char(q);
 	/* free memory */
-	char last = (q->sizeQueue)-1;
-		q->mensg = (char*)realloc(q->mensg, ((q->sizeQueue) - 1)*sizeof(char));
-	q->sizeQueue--;
+	char last = (q->size_queue)-1;
+		q->mensg = (char*)realloc(q->mensg, ((q->size_queue) - 1)*sizeof(char));
+	q->size_queue--;
 	return (buffer);
 }
 
 /* auxiliar function to print date of a queue */
 void printfQueue(eos_queue *q){
 //	printf("data\n");
-//	for(int i = 0; i < (q->sizeQueue); i++){
+//	for(int i = 0; i < (q->size_queue); i++){
 //    	printf("%d \n", q->data[i]);
 //	}
 	printf("\nvalue\n");
-	for(int i = 0; i < (q->sizeQueue); i++){
+	for(int i = 0; i < (q->size_queue); i++){
     	printf("%f \n", q->value[i]);
 	}
 //	printf("\nmensg\n");
-//	for(int i = 0; i < (q->sizeQueue); i++){
+//	for(int i = 0; i < (q->size_queue); i++){
 //    	printf("%c \n", q->mensg[i]);
 //	}
 }

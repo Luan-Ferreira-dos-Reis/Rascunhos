@@ -49,7 +49,7 @@ void writeQueue(Queue *q, void *value){
 void sendQueue(Queue *q, void *value){
 	q->data = (int*)realloc(q->data, ((q->sizeQueue) + 1)*sizeof(int));
 	q->value = (float*)realloc(q->value, ((q->sizeQueue) + 1)*sizeof(float));
-	q->mensg = (char*)realloc(q->mensg, ((q->sizeQueue) + 1)*sizeof(float));
+	q->mensg = (char*)realloc(q->mensg, ((q->sizeQueue) + 1)*sizeof(char));
 	q->sizeQueue++;
 	writeQueue(q, value);	
 }
@@ -96,14 +96,14 @@ char receiveQueueChar(Queue *q){
 
 /* auxiliar function to print date of a queue */
 void printfQueue(Queue *q){
-//	printf("data\n");
-//	for(int i = 0; i < (q->sizeQueue); i++){
-//    	printf("%d \n", q->data[i]);
-//	}
-	printf("\nvalue\n");
+	printf("data\n");
 	for(int i = 0; i < (q->sizeQueue); i++){
-    	printf("%f \n", q->value[i]);
+    	printf("%d \n", q->data[i]);
 	}
+//	printf("\nvalue\n");
+//	for(int i = 0; i < (q->sizeQueue); i++){
+//    	printf("%f \n", q->value[i]);
+//	}
 //	printf("\nmensg\n");
 //	for(int i = 0; i < (q->sizeQueue); i++){
 //    	printf("%c \n", q->mensg[i]);
@@ -117,16 +117,14 @@ int main(int argc, char *argv[]){
     char c = 'f';
     double d = 23.5675;
     
-//  int value[10] = {2, 3, 4, 5, 7, 1, 0, 6, 9, 8};
-  float value[10] = {2.8, 3.9, 4.6, 5.0, 7.1, 1.7, 0.5, 6.4, 9.3, 8.2};
+  int value[10] = {2, 3, 4, 5, 7, 1, 0, 6, 9, 8};
+//  float value[10] = {2.8, 3.9, 4.6, 5.0, 7.1, 1.7, 0.5, 6.4, 9.3, 8.2};
 //    char value[10] = {'2', '3', '4', '5', '7', '1', '0', '6', '9', '8'};
 	
 //	printf("Queue Created!\n");
-//  q = createQueue(&q , 5, sizeof(int));
-	printf("Queue Created!\n");
-  	q = createQueue(&q , 5, sizeof(float));
-//	printf("Queue Created!\n");
-//    q = createQueue(&q , 5, sizeof(char));
+  	q = createQueue(&q , 5, sizeof(int));
+//  q = createQueue(&q , 5, sizeof(float));
+//  q = createQueue(&q , 5, sizeof(char));
     
     printf("writing 5 elements\n");
     writeQueue(&q, &value[0]);
@@ -146,16 +144,16 @@ int main(int argc, char *argv[]){
     printfQueue(&q);
     
 	printf("reading from queue\n");
-//	printf("first in first reading: %d\n", readQueue(&q));
-	printf("first in first reading: %f\n", readQueueFloat(&q));
+	printf("first in first reading: %d\n", readQueue(&q));
+//	printf("first in first reading: %f\n", readQueueFloat(&q));
 //	printf("first in first reading: %c\n", readQueueChar(&q));
 	printf("Queue date\n");  
     printfQueue(&q);
       
     for(i = 0; i < 3; i++){
     	printf("receive elements from queue(first in first out)\n");
-//    	printf("element: %c\n", receiveQueue(&q));
-		printf("element: %c\n", receiveQueueFloat(&q));
+    	printf("element: %d\n", receiveQueue(&q));
+//		printf("element: %f\n", receiveQueueFloat(&q));
 //		printf("element: %c\n", receiveQueueChar(&q));
 	}
 	
@@ -163,5 +161,6 @@ int main(int argc, char *argv[]){
     printfQueue(&q);
     
     printf("%s\n%s\n%s\n%s\n", typeof(i), typeof(f), typeof(c),typeof(d));
+    free(&q);
     return 0;
 	}

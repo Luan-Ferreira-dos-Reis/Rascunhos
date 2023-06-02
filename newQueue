@@ -65,6 +65,12 @@ char readQueueChar(Queue *q){
 	return q->mensg[q->sizeQueue-1];	
 }
 
+void *readQueue(Queue *q){
+    if(q->sizeElements == 2) return readQueueInt(q);
+    if(q->sizeElements == 4) return readQueueFloat(q);
+    if(q->sizeElements == 1) return readQueueChar(q);
+}
+
 /* receive a element of queue and remove the element */
 int receiveQueueInt(Queue *q){
 	/* save the first out*/
@@ -92,6 +98,12 @@ char receiveQueueChar(Queue *q){
 		q->mensg = (char*)realloc(q->mensg, ((q->sizeQueue) - 1)*sizeof(char));
 	q->sizeQueue--;
 	return (buffer);
+}
+
+void *receiveQueue(Queue *q){
+    if(q->sizeElements == 2) return receiveQueueInt(q);
+    if(q->sizeElements == 4) return receiveQueueFloat(q);
+    if(q->sizeElements == 1) return receiveQueueChar(q);
 }
 
 /* auxiliar function to print date of a queue */
